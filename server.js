@@ -57,12 +57,13 @@ function adminAuth(req, res, next) {
 
 // Client Visit Tracking Middleware for Landing Page
 app.use((req, res, next) => {
-  // Only track main HTML routes, exclude static assets like css, js, images
+  // Only track main HTML routes, exclude static assets like css, js, images, and health ping
   const isStatic = req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff2?|map)$/i);
   const isAdminApi = req.path.startsWith('/api/admin');
   const isDownload = req.path.startsWith('/download');
+  const isPing = req.path === '/api/health' || req.path === '/ping';
 
-  if (!isStatic && !isAdminApi && !isDownload && req.method === 'GET') {
+  if (!isStatic && !isAdminApi && !isDownload && !isPing && req.method === 'GET') {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
     const userAgent = req.headers['user-agent'] || '';
     const referrer = req.headers['referer'] || req.headers['referrer'] || 'Direct';
@@ -76,6 +77,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve Admin Panel
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
+
+// ----------------------------------------------------
+// Health Check / Keep-Alive Ping Route
+// ----------------------------------------------------
+app.get(['/api/health', '/ping'], (req, res) => {
+  res.status(200).json({ status: 'ok', uptime: process.uptime(), timestamp: new Date().toISOString() });
+});
 
 // ----------------------------------------------------
 // Public APIs
