@@ -312,4 +312,23 @@ app.listen(PORT, () => {
   console.log(`📱 Latest APK Check API: http://localhost:${PORT}/api/apk/latest`);
   console.log(`🔑 Default Admin PIN: admin123`);
   console.log(`=================================================`);
+
+  // Auto Keep-Alive Self-Ping for Render (Prevents 15-min inactivity sleep)
+  const externalUrl = process.env.RENDER_EXTERNAL_URL || process.env.PUBLIC_URL;
+  if (externalUrl) {
+    const PING_INTERVAL_MS = 14 * 60 * 1000; // 14 minutes (Render sleeps at 15 mins)
+    console.log(`⏰ Keep-Alive active: Self-pinging ${externalUrl}/api/health every 14 minutes`);
+    
+    setInterval(async () => {
+      try {
+        const pingUrl = `${externalUrl}/api/health`;
+        const res = await fetch(pingUrl);
+        if (res.ok) {
+          console.log(`[Keep-Alive] Pinged ${pingUrl} at ${new Date().toLocaleTimeString()} - Status: 200 OK`);
+        }
+      } catch (err) {
+        console.warn(`[Keep-Alive] Ping warning:`, err.message);
+      }
+    }, PING_INTERVAL_MS);
+  }
 });
