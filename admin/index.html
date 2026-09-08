@@ -249,13 +249,16 @@
           </div>
 
           <div class="form-group full-width">
-            <label>Select Android APK File (.apk)</label>
+            <label>Select Android APK File (.apk) <span style="font-size:0.8rem; color:var(--text-muted);">(For small files &lt; 50MB)</span></label>
             <div class="file-dropzone" id="dropzone">
               <i data-lucide="file-up" style="width: 36px; height: 36px; color: var(--primary); margin-bottom: 8px;"></i>
               <p style="font-weight: 600; margin-bottom: 4px;" id="dropzone-label">Click or Drag & Drop .apk file here</p>
               <p style="color: var(--text-muted); font-size: 0.8rem;">Supports up to 250 MB</p>
               <input type="file" id="apkFile" name="apkFile" accept=".apk" style="display: none;">
             </div>
+            <button type="button" id="clear-file-btn" style="display:none; margin-top:6px; background:none; border:none; color:#F43F5E; cursor:pointer; font-size:0.8rem;">
+              ✖ Remove selected file
+            </button>
           </div>
 
           <div class="form-group full-width">

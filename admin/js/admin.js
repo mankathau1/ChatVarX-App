@@ -127,6 +127,8 @@ function setupEventListeners() {
     }
   });
 
+  const clearFileBtn = document.getElementById('clear-file-btn');
+
   function handleFileSelected(file) {
     if (!file.name.endsWith('.apk')) {
       alert('Please select a valid .apk file');
@@ -136,6 +138,16 @@ function setupEventListeners() {
     const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
     dropzoneLabel.innerHTML = `✅ <strong>${file.name}</strong> (${sizeMB} MB ready to upload)`;
     dropzone.style.borderColor = '#10B981';
+    if (clearFileBtn) clearFileBtn.style.display = 'inline-block';
+  }
+
+  if (clearFileBtn) {
+    clearFileBtn.addEventListener('click', () => {
+      fileInput.value = '';
+      dropzoneLabel.innerHTML = 'Click or Drag & Drop .apk file here';
+      dropzone.style.borderColor = 'rgba(139, 92, 246, 0.4)';
+      clearFileBtn.style.display = 'none';
+    });
   }
 
   // 5. Upload APK Form Submit
@@ -143,7 +155,7 @@ function setupEventListeners() {
   const uploadStatus = document.getElementById('upload-status');
   const submitUploadBtn = document.getElementById('submit-upload-btn');
 
-  uploadForm.addEventListener('submit', async (e) => {
+  uploadForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const directUrl = document.getElementById('downloadUrl') ? document.getElementById('downloadUrl').value.trim() : '';
     const hasFile = fileInput.files && fileInput.files.length > 0;
@@ -154,41 +166,67 @@ function setupEventListeners() {
     }
 
     const formData = new FormData(uploadForm);
+    
+    // If a direct high-speed cloud CDN URL is provided, omit the local file binary to avoid heavy 150MB upload
+    if (directUrl && hasFile) {
+      formData.delete('apkFile');
+    }
+
     submitUploadBtn.disabled = true;
-    submitUploadBtn.innerHTML = `<i data-lucide="loader" class="spin"></i> Uploading APK...`;
+    submitUploadBtn.innerHTML = `<i data-lucide="loader" class="spin"></i> Publishing...`;
     refreshIcons();
     uploadStatus.style.color = '#8B5CF6';
-    uploadStatus.textContent = 'Uploading APK binary to server... Please wait.';
+    uploadStatus.textContent = hasFile && !directUrl ? 'Starting upload... Please wait.' : 'Publishing release...';
 
-    try {
-      const res = await fetch('/api/admin/apk/upload', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${adminToken}`
-        },
-        body: formData
-      });
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/admin/apk/upload');
+    xhr.setRequestHeader('Authorization', `Bearer ${adminToken}`);
 
-      const data = await res.json();
-      if (res.ok && data.success) {
-        uploadStatus.style.color = '#10B981';
-        uploadStatus.textContent = `🚀 ${data.message}`;
-        uploadForm.reset();
-        dropzoneLabel.innerHTML = 'Click or Drag & Drop .apk file here';
-        dropzone.style.borderColor = 'rgba(139, 92, 246, 0.4)';
-        loadDashboard(); // Refresh UI with new release
-      } else {
-        uploadStatus.style.color = '#F43F5E';
-        uploadStatus.textContent = data.message || 'Upload failed';
-      }
-    } catch (err) {
-      uploadStatus.style.color = '#F43F5E';
-      uploadStatus.textContent = 'Network error during upload';
-    } finally {
+    if (xhr.upload && hasFile && !directUrl) {
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percent = Math.round((event.loaded / event.total) * 100);
+          const loadedMB = (event.loaded / (1024 * 1024)).toFixed(1);
+          const totalMB = (event.total / (1024 * 1024)).toFixed(1);
+          uploadStatus.textContent = `Uploading APK: ${loadedMB}MB / ${totalMB}MB (${percent}%)... Please do not close this tab.`;
+        }
+      };
+    }
+
+    xhr.onload = () => {
       submitUploadBtn.disabled = false;
       submitUploadBtn.innerHTML = `<i data-lucide="send"></i> Publish APK Live`;
       refreshIcons();
-    }
+
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300 && data.success) {
+          uploadStatus.style.color = '#10B981';
+          uploadStatus.textContent = `🚀 ${data.message}`;
+          uploadForm.reset();
+          dropzoneLabel.innerHTML = 'Click or Drag & Drop .apk file here';
+          dropzone.style.borderColor = 'rgba(139, 92, 246, 0.4)';
+          if (clearFileBtn) clearFileBtn.style.display = 'none';
+          loadDashboard(); // Refresh UI with new release
+        } else {
+          uploadStatus.style.color = '#F43F5E';
+          uploadStatus.textContent = data.message || `Upload failed with status ${xhr.status}`;
+        }
+      } catch (err) {
+        uploadStatus.style.color = '#F43F5E';
+        uploadStatus.textContent = 'Server response error: ' + xhr.responseText.slice(0, 100);
+      }
+    };
+
+    xhr.onerror = () => {
+      submitUploadBtn.disabled = false;
+      submitUploadBtn.innerHTML = `<i data-lucide="send"></i> Publish APK Live`;
+      refreshIcons();
+      uploadStatus.style.color = '#F43F5E';
+      uploadStatus.textContent = 'Network error or connection timeout during upload. For large files (>100MB), please use GitHub Releases CDN URL.';
+    };
+
+    xhr.send(formData);
   });
 
   // 6. Launch Countdown Form and Presets
