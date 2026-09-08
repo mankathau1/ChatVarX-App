@@ -303,6 +303,109 @@ function setupEventListeners() {
       }
     });
   }
+
+  // 7. Clear All Downloads
+  const clearDownloadsBtn = document.getElementById('clear-downloads-btn');
+  if (clearDownloadsBtn) {
+    clearDownloadsBtn.addEventListener('click', async () => {
+      if (!confirm('⚠️ Are you sure you want to delete ALL APK download activity logs? This cannot be undone.')) {
+        return;
+      }
+      try {
+        const res = await fetch('/api/admin/downloads', {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          loadDashboard();
+        } else {
+          alert(data.message || 'Failed to clear downloads');
+        }
+      } catch (err) {
+        alert('Network error while clearing downloads');
+      }
+    });
+  }
+
+  // 8. Clear All Visitors
+  const clearVisitorsBtn = document.getElementById('clear-visitors-btn');
+  if (clearVisitorsBtn) {
+    clearVisitorsBtn.addEventListener('click', async () => {
+      if (!confirm('⚠️ Are you sure you want to delete ALL website visitor logs? This cannot be undone.')) {
+        return;
+      }
+      try {
+        const res = await fetch('/api/admin/visitors', {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          loadDashboard();
+        } else {
+          alert(data.message || 'Failed to clear visitors');
+        }
+      } catch (err) {
+        alert('Network error while clearing visitors');
+      }
+    });
+  }
+
+  // 9. Change Admin PIN Form
+  const changePinForm = document.getElementById('change-pin-form');
+  const changePinStatus = document.getElementById('change-pin-status');
+  const changePinBtn = document.getElementById('change-pin-btn');
+
+  if (changePinForm) {
+    changePinForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const oldPin = document.getElementById('old-pin').value;
+      const newPin = document.getElementById('new-pin').value;
+
+      if (!newPin || newPin.length < 4) {
+        changePinStatus.style.color = '#F43F5E';
+        changePinStatus.textContent = 'New password must be at least 4 characters';
+        return;
+      }
+
+      changePinBtn.disabled = true;
+      changePinBtn.innerHTML = `<i data-lucide="loader" class="spin"></i> Updating...`;
+      refreshIcons();
+      changePinStatus.textContent = '';
+
+      try {
+        const res = await fetch('/api/admin/change-pin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify({ oldPin, newPin })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          changePinStatus.style.color = '#10B981';
+          changePinStatus.textContent = '✅ ' + data.message;
+          changePinForm.reset();
+          setTimeout(() => {
+            changePinStatus.textContent = '';
+          }, 4000);
+        } else {
+          changePinStatus.style.color = '#F43F5E';
+          changePinStatus.textContent = '❌ ' + (data.message || 'Failed to change password');
+        }
+      } catch (err) {
+        changePinStatus.style.color = '#F43F5E';
+        changePinStatus.textContent = 'Network error while updating password';
+      } finally {
+        changePinBtn.disabled = false;
+        changePinBtn.innerHTML = `<i data-lucide="key"></i> Update Admin Password`;
+        refreshIcons();
+      }
+    });
+  }
 }
 
 // Fetch and render all dashboard metrics
@@ -368,11 +471,16 @@ function renderStats(data) {
           <td>${v.browser}</td>
           <td style="color: var(--text-muted);">${v.referrer}</td>
           <td><code>${v.ip}</code></td>
+          <td style="text-align: center;">
+            <button type="button" class="btn-action-delete" onclick="deleteVisitor('${v.id}')" title="Delete this record">
+              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+            </button>
+          </td>
         </tr>
       `;
     }).join('');
   } else {
-    visitorsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">No visitors recorded yet.</td></tr>`;
+    visitorsTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--text-muted);">No visitors recorded yet.</td></tr>`;
   }
 
   // Render Downloads Table
@@ -388,11 +496,16 @@ function renderStats(data) {
           <td><span class="badge-pill ${badgeClass}">${d.os} (${d.device})</span></td>
           <td>${d.browser}</td>
           <td><code>${d.ip}</code></td>
+          <td style="text-align: center;">
+            <button type="button" class="btn-action-delete" onclick="deleteDownload('${d.id}')" title="Delete this log">
+              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+            </button>
+          </td>
         </tr>
       `;
     }).join('');
   } else {
-    downloadsTbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No downloads recorded yet.</td></tr>`;
+    downloadsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">No downloads recorded yet.</td></tr>`;
   }
 
   // Populate Launch Countdown Form & Preview
@@ -545,3 +658,40 @@ window.deleteRelease = async function(id) {
     alert('Failed to delete release');
   }
 };
+
+// Delete single visitor log
+window.deleteVisitor = async function(id) {
+  if (!confirm('Are you sure you want to delete this visitor record?')) return;
+  try {
+    const res = await fetch(`/api/admin/visitors/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${adminToken}` }
+    });
+    if (res.ok) {
+      loadDashboard();
+    } else {
+      alert('Failed to delete visitor log');
+    }
+  } catch (e) {
+    alert('Failed to delete visitor record');
+  }
+};
+
+// Delete single download log
+window.deleteDownload = async function(id) {
+  if (!confirm('Are you sure you want to delete this download record?')) return;
+  try {
+    const res = await fetch(`/api/admin/downloads/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${adminToken}` }
+    });
+    if (res.ok) {
+      loadDashboard();
+    } else {
+      alert('Failed to delete download log');
+    }
+  } catch (e) {
+    alert('Failed to delete download record');
+  }
+};
+

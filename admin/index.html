@@ -23,7 +23,7 @@
       <form id="login-form">
         <div class="login-input-group">
           <label for="admin-pin">Admin Security PIN</label>
-          <input type="password" id="admin-pin" class="login-input" placeholder="Default: admin123" required autocomplete="current-password">
+          <input type="password" id="admin-pin" class="login-input" placeholder="Enter Admin PIN / Password" required autocomplete="current-password">
         </div>
         <p id="login-error" style="color: #F43F5E; font-size: 0.85rem; margin-bottom: 12px; display: none;">Invalid PIN. Please try again.</p>
         <button type="submit" class="btn-login" id="login-submit-btn">Unlock Dashboard</button>
@@ -50,6 +50,7 @@
         <li><a class="sidebar-item" href="#apk-manager"><i data-lucide="package-plus"></i> APK Release Hub</a></li>
         <li><a class="sidebar-item" href="#downloads-log"><i data-lucide="download-cloud"></i> Download Logs</a></li>
         <li><a class="sidebar-item" href="#visitors-log"><i data-lucide="users"></i> Visitor Traffic</a></li>
+        <li><a class="sidebar-item" href="#security-settings"><i data-lucide="shield-check"></i> Security & PIN</a></li>
         <li><a class="sidebar-item" href="#api-guide"><i data-lucide="code-2"></i> In-App Update API</a></li>
       </ul>
 
@@ -324,9 +325,14 @@
 
     <!-- Download Logs Table -->
     <section class="data-card" id="downloads-log">
-      <div class="card-title">
-        <i data-lucide="download" style="color: #10B981;"></i>
-        Recent APK Download Activity (Live Feed)
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
+        <div class="card-title" style="margin-bottom: 0;">
+          <i data-lucide="download" style="color: #10B981;"></i>
+          Recent APK Download Activity (Live Feed)
+        </div>
+        <button type="button" class="btn-danger-outline" id="clear-downloads-btn" title="Clear all download activity logs">
+          <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i> Clear All Downloads
+        </button>
       </div>
       <p class="card-desc">Tracks each time a user downloads the APK file.</p>
 
@@ -339,10 +345,11 @@
               <th>Device OS</th>
               <th>Browser</th>
               <th>IP Address</th>
+              <th style="text-align: center; width: 80px;">Action</th>
             </tr>
           </thead>
           <tbody id="downloads-table-body">
-            <tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No downloads recorded yet.</td></tr>
+            <tr><td colspan="6" style="text-align:center; color: var(--text-muted);">No downloads recorded yet.</td></tr>
           </tbody>
         </table>
       </div>
@@ -350,9 +357,14 @@
 
     <!-- Visitor Traffic Table -->
     <section class="data-card" id="visitors-log">
-      <div class="card-title">
-        <i data-lucide="globe" style="color: #06B6D4;"></i>
-        Recent Website Visitors (Telemetry)
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
+        <div class="card-title" style="margin-bottom: 0;">
+          <i data-lucide="globe" style="color: #06B6D4;"></i>
+          Recent Website Visitors (Telemetry)
+        </div>
+        <button type="button" class="btn-danger-outline" id="clear-visitors-btn" title="Clear all visitor logs">
+          <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i> Clear All Visitors
+        </button>
       </div>
       <p class="card-desc">Real-time log of users viewing your website.</p>
 
@@ -366,13 +378,46 @@
               <th>Browser</th>
               <th>Referrer</th>
               <th>IP</th>
+              <th style="text-align: center; width: 80px;">Action</th>
             </tr>
           </thead>
           <tbody id="visitors-table-body">
-            <tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Loading visitor logs...</td></tr>
+            <tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Loading visitor logs...</td></tr>
           </tbody>
         </table>
       </div>
+    </section>
+
+    <!-- Admin Security & Password Settings -->
+    <section class="upload-card" id="security-settings" style="border-color: rgba(244, 63, 94, 0.35); background: linear-gradient(135deg, rgba(244, 63, 94, 0.04), rgba(139, 92, 246, 0.04), #120E22);">
+      <div class="card-title">
+        <i data-lucide="shield-check" style="color: #F43F5E;"></i>
+        Admin Security & Password Settings
+      </div>
+      <p class="card-desc">
+        Change your administrative password at any time. Password must be at least 4 characters long.
+      </p>
+
+      <form id="change-pin-form">
+        <div class="upload-form-grid">
+          <div class="form-group">
+            <label for="old-pin">Current Admin Password / PIN*</label>
+            <input type="password" id="old-pin" name="oldPin" class="form-input" placeholder="Enter current password" required autocomplete="current-password">
+          </div>
+
+          <div class="form-group">
+            <label for="new-pin">New Admin Password / PIN*</label>
+            <input type="password" id="new-pin" name="newPin" class="form-input" placeholder="Enter new password (min 4 chars)" required autocomplete="new-password">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px;">
+          <div id="change-pin-status" style="font-size: 0.9rem; font-weight: 500;"></div>
+          <button type="submit" class="btn-upload-submit" id="change-pin-btn" style="background: linear-gradient(135deg, #F43F5E, #8B5CF6);">
+            <i data-lucide="key"></i> Update Admin Password
+          </button>
+        </div>
+      </form>
     </section>
 
     <!-- Flutter Mobile App Auto-Update API Guide -->

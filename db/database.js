@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const DB_FILE = path.join(__dirname, 'data.json');
 
 const defaultData = {
-  adminPin: 'admin123', // Default admin password
+  adminPin: 'Itsvarathan36@#', // Default admin password
   launchConfig: {
     targetDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
     title: 'Official Global Android Launch',
@@ -133,6 +133,21 @@ const db = {
     return visit;
   },
 
+  clearVisits() {
+    const data = readDB();
+    data.visits = [];
+    writeDB(data);
+    return true;
+  },
+
+  deleteVisit(id) {
+    const data = readDB();
+    const initialLen = data.visits.length;
+    data.visits = data.visits.filter(v => v.id !== id);
+    writeDB(data);
+    return data.visits.length < initialLen;
+  },
+
   recordDownload({ version, ip, userAgent }) {
     const data = readDB();
     const { device, os, browser } = parseUserAgent(userAgent);
@@ -162,6 +177,24 @@ const db = {
 
     writeDB(data);
     return download;
+  },
+
+  clearDownloads() {
+    const data = readDB();
+    data.downloads = [];
+    if (data.releases) {
+      data.releases.forEach(r => { r.downloadCount = 0; });
+    }
+    writeDB(data);
+    return true;
+  },
+
+  deleteDownload(id) {
+    const data = readDB();
+    const initialLen = data.downloads.length;
+    data.downloads = data.downloads.filter(d => d.id !== id);
+    writeDB(data);
+    return data.downloads.length < initialLen;
   },
 
   getLatestRelease() {

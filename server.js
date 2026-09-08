@@ -292,6 +292,38 @@ app.delete('/api/admin/releases/:id', adminAuth, (req, res) => {
   }
 });
 
+// Clear All Website Visitors
+app.delete('/api/admin/visitors', adminAuth, (req, res) => {
+  db.clearVisits();
+  res.json({ success: true, message: 'All visitor records successfully cleared' });
+});
+
+// Delete Single Website Visitor
+app.delete('/api/admin/visitors/:id', adminAuth, (req, res) => {
+  const success = db.deleteVisit(req.params.id);
+  if (success) {
+    res.json({ success: true, message: 'Visitor record deleted' });
+  } else {
+    res.status(404).json({ success: false, message: 'Visitor record not found' });
+  }
+});
+
+// Clear All APK Downloads
+app.delete('/api/admin/downloads', adminAuth, (req, res) => {
+  db.clearDownloads();
+  res.json({ success: true, message: 'All download activity logs successfully cleared' });
+});
+
+// Delete Single APK Download Log
+app.delete('/api/admin/downloads/:id', adminAuth, (req, res) => {
+  const success = db.deleteDownload(req.params.id);
+  if (success) {
+    res.json({ success: true, message: 'Download record deleted' });
+  } else {
+    res.status(404).json({ success: false, message: 'Download record not found' });
+  }
+});
+
 // Fallback for direct browser URLs
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'admin', 'index.html'));
@@ -310,7 +342,7 @@ app.listen(PORT, () => {
   console.log(`🌐 Public Landing Page: http://localhost:${PORT}`);
   console.log(`🛡️ Admin Control Panel: http://localhost:${PORT}/admin`);
   console.log(`📱 Latest APK Check API: http://localhost:${PORT}/api/apk/latest`);
-  console.log(`🔑 Default Admin PIN: admin123`);
+  console.log(`🔑 Admin Security PIN: Active and Protected`);
   console.log(`=================================================`);
 
   // Auto Keep-Alive Self-Ping for Render (Prevents 15-min inactivity sleep)
