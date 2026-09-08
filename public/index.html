@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatVarX — Next-Gen Messaging & Private Duo Space</title>
+  <meta name="description" content="Experience ChatVarX: Ultra-fast, private messaging with exclusive Duo Space heartbeat sync, end-to-end security, and modern aesthetics.">
+  
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Effects -->
+  <div class="ambient-glow ambient-purple"></div>
+  <div class="ambient-glow ambient-rose"></div>
+  <div class="ambient-glow ambient-cyan"></div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="nav-logo">
+        <img src="assets/logo.svg" alt="ChatVarX Logo">
+        Chat<span>VarX</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#duo-space">Duo Space</a></li>
+        <li><a href="#ai-features"><span style="color:#06B6D4;">✦ AI Power</span></a></li>
+        <li><a href="#demo">Live Test</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/download" class="btn-primary nav-download-desktop" id="nav-download-btn">
+          <i data-lucide="download"></i> <span>Get APK</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open Navigation Menu">
+          <i data-lucide="menu" id="menu-icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-drawer" id="mobile-drawer">
+      <ul class="mobile-drawer-links">
+        <li><a href="#features" class="mobile-nav-link"><i data-lucide="zap"></i> Features</a></li>
+        <li><a href="#duo-space" class="mobile-nav-link"><i data-lucide="heart"></i> Duo Space</a></li>
+        <li><a href="#ai-features" class="mobile-nav-link" style="color: #06B6D4;"><i data-lucide="bot"></i> ChatVarX AI Power</a></li>
+        <li><a href="#demo" class="mobile-nav-link"><i data-lucide="message-square"></i> Live Test Drive</a></li>
+        <li><a href="#download" class="mobile-nav-link"><i data-lucide="download"></i> Download APK</a></li>
+        <li><a href="#faq" class="mobile-nav-link"><i data-lucide="help-circle"></i> FAQ</a></li>
+      </ul>
+      <div style="padding: 16px 20px 20px;">
+        <a href="/download" class="btn-primary" style="width: 100%; justify-content: center;">
+          <i data-lucide="download-cloud"></i> Download APK
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="version-badge">
+          <span class="pulse-dot"></span>
+          <span id="hero-version-text">Latest Release v1.0.4 Available</span>
+        </div>
+
+        <h1 class="hero-title">
+          Chat Beyond Limits. <br>
+          <span class="text-gradient">Connect at Heartbeat Speed.</span>
+        </h1>
+
+        <p class="hero-desc">
+          ChatVarX is engineered for uncompromising speed, modern privacy, and intimate connection. Featuring the groundbreaking <strong>Duo Space</strong> with real-time heartbeat resonance.
+        </p>
+
+        <!-- Launch Countdown Timer Showcase -->
+        <div class="launch-countdown-card" id="launch-countdown-card">
+          <div class="launch-countdown-header">
+            <div class="launch-badge">
+              <span class="launch-pulse-ring"></span>
+              <span id="countdown-badge-text">🚀 LAUNCHING IN</span>
+            </div>
+            <div class="launch-target-title" id="countdown-title-text">Official Global Android Launch</div>
+          </div>
+
+          <!-- Active Timer Ticking Grid -->
+          <div class="countdown-digits-grid" id="countdown-digits-grid">
+            <div class="countdown-digit-box">
+              <div class="countdown-num" id="cd-days">04</div>
+              <div class="countdown-label">DAYS</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-digit-box">
+              <div class="countdown-num" id="cd-hours">00</div>
+              <div class="countdown-label">HOURS</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-digit-box">
+              <div class="countdown-num" id="cd-mins">00</div>
+              <div class="countdown-label">MINS</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-digit-box">
+              <div class="countdown-num" id="cd-secs">00</div>
+              <div class="countdown-label">SECS</div>
+            </div>
+          </div>
+
+          <!-- Live Status Banner (when 0 or isLive is true) -->
+          <div class="countdown-live-banner" id="countdown-live-banner" style="display: none;">
+            <div class="live-dot-pulse"></div>
+            <div class="countdown-live-content">
+              <span class="countdown-live-tag">OFFICIALLY LIVE NOW</span>
+              <p class="countdown-live-text" id="countdown-live-text">ChatVarX is now live worldwide! Download the Android APK below.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="/download" class="btn-primary btn-hero-download" id="hero-download-btn">
+            <i data-lucide="download-cloud"></i>
+            <span>Download Android APK</span>
+          </a>
+          <a href="#duo-space" class="btn-secondary">
+            <i data-lucide="heart"></i> Explore Duo Space
+          </a>
+        </div>
+
+        <div class="apk-meta-info">
+          <span><i data-lucide="check-circle" style="color: #10B981; width:16px; height:16px;"></i> Verified Safe & Clean</span>
+          <span><i data-lucide="smartphone" style="color: #8B5CF6; width:16px; height:16px;"></i> Android 8.0+</span>
+          <span id="hero-size-text"><i data-lucide="hard-drive" style="color: #F43F5E; width:16px; height:16px;"></i> 28.4 MB</span>
+        </div>
+      </div>
+
+      <!-- 3D Mockup -->
+      <div class="mockup-wrapper">
+        <div class="phone-card" style="box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 50px rgba(6, 182, 212, 0.25);">
+          <div class="phone-notch"></div>
+          <div class="phone-screen" style="padding: 30px 12px 10px; display: flex; flex-direction: column; justify-content: space-between;">
+            
+            <!-- Top App Header from Screenshot 4 -->
+            <div>
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+                <div>
+                  <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1;">
+                    Chat<span style="background: linear-gradient(135deg, #06B6D4, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">VarX</span>
+                  </div>
+                  <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 2px;">
+                    Good afternoon, Itsvs2426 ☀️
+                  </div>
+                </div>
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: #1C182B; display: flex; align-items: center; justify-content: center; color: #06B6D4; cursor: pointer;">
+                  <i data-lucide="bell" style="width: 15px; height: 15px;"></i>
+                </div>
+              </div>
+
+              <!-- Search Bar -->
+              <div style="background: #181426; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 7px 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                <i data-lucide="search" style="width: 14px; height: 14px; color: #64748B;"></i>
+                <span style="font-size: 0.78rem; color: #64748B;">Search chats or messages...</span>
+              </div>
+
+              <!-- Chats List -->
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                
+                <!-- Chat 1: VarX AI with Blue Tick & AI Badge -->
+                <div style="background: rgba(6, 182, 212, 0.06); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 14px; padding: 10px; display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #0F172A, #1E1B4B); border: 2px solid #06B6D4; display: flex; align-items: center; justify-content: center; position: relative;">
+                    <span style="font-size: 1.1rem;">🤖</span>
+                    <span style="position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-radius: 50%; background: #06B6D4; border: 2px solid #000;"></span>
+                  </div>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <strong style="font-size: 0.85rem; color: #fff;">VarX AI</strong>
+                        <!-- Blue Tick Verification Badge -->
+                        <span style="color: #06B6D4; font-size: 0.75rem;">✓</span>
+                        <span style="background: rgba(244, 63, 94, 0.2); color: #FB7185; font-size: 0.6rem; font-weight: 800; padding: 1px 5px; border-radius: 8px;">✦ AI</span>
+                      </div>
+                      <span style="font-size: 0.68rem; color: #64748B;">35m ago &gt;</span>
+                    </div>
+                    <div style="font-size: 0.76rem; color: #06B6D4; margin-top: 2px; font-weight: 500;">
+                      📌 Vanakkam! 🙏
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chat 2: Duo Space Heartbeat -->
+                <div style="background: rgba(244, 63, 94, 0.05); border: 1px solid rgba(244, 63, 94, 0.15); border-radius: 14px; padding: 10px; display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #881337, #BE123C); border: 2px solid #F43F5E; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 1.1rem;">💖</span>
+                  </div>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                      <strong style="font-size: 0.85rem; color: #fff;">Duo Partner</strong>
+                      <span style="font-size: 0.68rem; color: #F43F5E; font-weight: 600;">Live Pulse</span>
+                    </div>
+                    <div style="font-size: 0.74rem; color: #FDA4AF; margin-top: 2px; display: flex; align-items: center; gap: 4px;">
+                      <i data-lucide="heart" style="width: 11px; height: 11px; fill: #F43F5E;"></i> Sent a Real-Time Heartbeat
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Authentic Bottom Navigation Bar from Screenshots -->
+            <div style="background: #151124; border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 6px 12px; display: flex; align-items: center; justify-content: space-around; margin-top: 14px;">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; color: #06B6D4; font-size: 0.65rem; font-weight: 700;">
+                <i data-lucide="message-square" style="width: 16px; height: 16px;"></i>
+                <span>Chats</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; color: #64748B; font-size: 0.65rem;">
+                <i data-lucide="compass" style="width: 16px; height: 16px;"></i>
+                <span>Explore</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; color: #FB7185; font-size: 0.65rem; font-weight: 700;">
+                <i data-lucide="heart" style="width: 16px; height: 16px; fill: #FB7185;"></i>
+                <span>Duo Space</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; color: #64748B; font-size: 0.65rem;">
+                <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+                <span>Profile</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Floating Badges -->
+        <div class="floating-pill pill-1">
+          <i data-lucide="shield-check" style="color: #F43F5E; width: 18px; height: 18px;"></i>
+          <span>End-to-End Encrypted</span>
+        </div>
+        <div class="floating-pill pill-2">
+          <i data-lucide="zap" style="color: #8B5CF6; width: 18px; height: 18px;"></i>
+          <span>0ms Realtime Sync</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Duo Space Feature Showcase Section -->
+  <section class="section" id="duo-space">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag tag-duo">Exclusive Feature</span>
+        <h2 class="section-title">
+          Meet <span class="text-duo-gradient">Duo Space</span>
+        </h2>
+        <p class="section-desc">
+          An intimate, zero-distraction sanctuary crafted exclusively for two. Feel connected across any distance with synchronized presence and physical vibe haptics.
+        </p>
+      </div>
+
+      <div class="duo-feature-card">
+        
+        <!-- Left Column: Duo Space Features & Safe Mode -->
+        <div class="duo-info" style="display:flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display:inline-flex; align-items:center; gap: 8px; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.35); padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: #FDA4AF; margin-bottom: 16px;">
+              <i data-lucide="heart" style="width: 14px; height: 14px; fill: #F43F5E;"></i> Dedicated Couple Sanctuary
+            </div>
+            <h3 style="font-size: 1.9rem; font-family: var(--font-heading); margin-bottom: 16px; line-height: 1.2;">
+              The Ultimate Space Crafted Exclusively for Two
+            </h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6;">
+              Everything in Duo Space is synced in real-time. Count your relationship days, share your current mood, call privately, and touch each other's hearts across any distance.
+            </p>
+
+            <ul class="duo-features-list">
+              <li>
+                <div class="feature-check-icon"><i data-lucide="clock"></i></div>
+                <div>
+                  <strong style="color: #fff;">Together For Counter:</strong>
+                  <p style="color: var(--text-secondary); font-size: 0.88rem;">Live relationship milestone clock tracking exact Days, Hours, and Minutes together.</p>
+                </div>
+              </li>
+              <li>
+                <div class="feature-check-icon"><i data-lucide="heart"></i></div>
+                <div>
+                  <strong style="color: #fff;">Hold to Send Real-Time Heartbeat:</strong>
+                  <p style="color: var(--text-secondary); font-size: 0.88rem;">Press and hold the glowing heart to transmit synchronized haptic heartbeat pulses directly to your partner's phone.</p>
+                </div>
+              </li>
+              <li>
+                <div class="feature-check-icon"><i data-lucide="smile"></i></div>
+                <div>
+                  <strong style="color: #fff;">Update Your Mood:</strong>
+                  <p style="color: var(--text-secondary); font-size: 0.88rem;">Share your ambient emotional status: ✨ Happy, 💕 In Love, or ☕ Low Energy.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Duo Space Safe Mode Card from Screenshot 1 -->
+          <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.25); border-radius: 16px; padding: 18px; margin-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+            <div style="display:flex; align-items: center; gap: 12px;">
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(244, 63, 94, 0.2); color: #F43F5E; display:flex; align-items:center; justify-content:center; flex-shrink: 0;">
+                <i data-lucide="shield"></i>
+              </div>
+              <div>
+                <strong style="color: #fff; font-size: 0.92rem; display: block;">Duo Space Safe Mode</strong>
+                <span style="color: var(--text-secondary); font-size: 0.8rem;">Conceal Duo Space tab & cards secretly</span>
+              </div>
+            </div>
+            <div style="width: 44px; height: 24px; background: #F43F5E; border-radius: 20px; position: relative; cursor: pointer;">
+              <div style="position: absolute; right: 3px; top: 3px; width: 18px; height: 18px; background: #fff; border-radius: 50%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Duo Space App Screen Mockup -->
+        <div class="duo-interactive-box" style="background: #110B18; border: 1px solid rgba(244, 63, 94, 0.35); border-radius: 24px; padding: 28px 20px; box-shadow: 0 15px 50px rgba(244, 63, 94, 0.15);">
+          
+          <!-- Screen Header -->
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
+            <div style="display:flex; align-items:center; gap: 8px;">
+              <span style="font-size: 1.2rem; color: #F43F5E;">💖</span>
+              <strong style="font-family: var(--font-heading); font-size: 1.25rem;">Duo Space</strong>
+            </div>
+            <div style="display:flex; align-items:center; gap: 14px; color: #F43F5E;">
+              <i data-lucide="phone" style="width: 18px; height: 18px; cursor: pointer;"></i>
+              <i data-lucide="video" style="width: 18px; height: 18px; cursor: pointer;"></i>
+              <i data-lucide="message-circle" style="width: 18px; height: 18px; cursor: pointer;"></i>
+            </div>
+          </div>
+
+          <!-- TOGETHER FOR Milestone Counter Card -->
+          <div style="background: linear-gradient(135deg, rgba(80, 15, 40, 0.6) 0%, rgba(35, 10, 25, 0.7) 100%); border: 1px solid rgba(244, 63, 94, 0.3); border-radius: 18px; padding: 18px; margin-bottom: 20px; text-align: center;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #FDA4AF; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; display:flex; align-items:center; justify-content:center; gap: 6px;">
+              <i data-lucide="heart" style="width: 12px; height: 12px; fill: #FDA4AF;"></i> TOGETHER FOR
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <div class="duo-timer-pill">
+                <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 900; color: #FB7185;" id="duo-days">385</div>
+                <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700; letter-spacing: 1px;">DAYS</div>
+              </div>
+              <span style="font-weight: 900; color: #F43F5E; font-size: 1.2rem;">:</span>
+              <div class="duo-timer-pill">
+                <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 900; color: #FB7185;" id="duo-hours">10</div>
+                <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700; letter-spacing: 1px;">HOURS</div>
+              </div>
+              <span style="font-weight: 900; color: #F43F5E; font-size: 1.2rem;">:</span>
+              <div class="duo-timer-pill">
+                <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 900; color: #FB7185;" id="duo-mins">28</div>
+                <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700; letter-spacing: 1px;">MINS</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Buttons: Voice Call, Video Call, Love Chat -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px;">
+            <div style="background: #181224; border: 1px solid var(--border-subtle); border-radius: 14px; padding: 12px 6px; text-align: center; cursor: pointer; transition: transform 0.2s ease;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(6, 182, 212, 0.15); color: #06B6D4; display:flex; align-items:center; justify-content:center; margin: 0 auto 6px;">
+                <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+              </div>
+              <span style="font-size: 0.75rem; color: #E2E8F0; font-weight: 600;">Voice Call</span>
+            </div>
+
+            <div style="background: #181224; border: 1px solid var(--border-subtle); border-radius: 14px; padding: 12px 6px; text-align: center; cursor: pointer; transition: transform 0.2s ease;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(244, 63, 94, 0.15); color: #F43F5E; display:flex; align-items:center; justify-content:center; margin: 0 auto 6px;">
+                <i data-lucide="video" style="width: 16px; height: 16px;"></i>
+              </div>
+              <span style="font-size: 0.75rem; color: #E2E8F0; font-weight: 600;">Video Call</span>
+            </div>
+
+            <div style="background: #181224; border: 1px solid var(--border-subtle); border-radius: 14px; padding: 12px 6px; text-align: center; cursor: pointer; transition: transform 0.2s ease;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(244, 63, 94, 0.2); color: #FB7185; display:flex; align-items:center; justify-content:center; margin: 0 auto 6px;">
+                <i data-lucide="heart" style="width: 16px; height: 16px; fill: #FB7185;"></i>
+              </div>
+              <span style="font-size: 0.75rem; color: #E2E8F0; font-weight: 600;">Love Chat</span>
+            </div>
+          </div>
+
+          <!-- Giant Glowing Heart Button: "Hold to Send Real-Time Heartbeat" -->
+          <div style="margin: 24px 0 16px; text-align: center;">
+            <button class="real-heartbeat-btn" id="real-heartbeat-btn" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%); border: none; box-shadow: 0 0 35px rgba(244, 63, 94, 0.6); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; position: relative;">
+              <i data-lucide="heart" style="width: 48px; height: 48px; fill: #FFFFFF; color: #FFFFFF;"></i>
+            </button>
+            <div style="font-weight: 700; color: #F8FAFC; font-size: 0.95rem; margin-top: 14px;" id="heartbeat-instruction-label">
+              Hold to Send Real-Time Heartbeat
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.78rem; margin-top: 4px;" id="heartbeat-feedback-text">
+              Tap or hold to test live pulse haptics!
+            </p>
+          </div>
+
+          <!-- UPDATE YOUR MOOD Section -->
+          <div style="margin-top: 24px; border-top: 1px solid var(--border-subtle); padding-top: 16px; text-align: left;">
+            <div style="font-size: 0.72rem; font-weight: 800; color: #94A3B8; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;">
+              UPDATE YOUR MOOD
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="mood-pill active" data-mood="Happy">✨ Happy</button>
+              <button class="mood-pill" data-mood="In Love">💕 In Love</button>
+              <button class="mood-pill" data-mood="Low Energy">☕ Low Energy</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ChatVarX AI Power Showcase Section -->
+  <section class="section" id="ai-features" style="background: linear-gradient(180deg, transparent 0%, rgba(6, 182, 212, 0.05) 50%, transparent 100%);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" style="color: #06B6D4;"><i data-lucide="sparkles" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Neural Intelligence</span>
+        <h2 class="section-title">
+          ChatVarX <span style="background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI Power</span>
+        </h2>
+        <p class="section-desc">
+          Supercharge your messaging with embedded AI. Draft faster, translate effortlessly, transcribe voice notes in seconds, and spark memorable conversations in Duo Space.
+        </p>
+      </div>
+
+      <!-- AI Features Grid -->
+      <div class="bento-grid" style="margin-bottom: 48px;">
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(6, 182, 212, 0.12); color: #06B6D4; border-color: rgba(6, 182, 212, 0.3);">
+            <i data-lucide="bot"></i>
+          </div>
+          <h3>In-Chat AI Copilot</h3>
+          <p>Need a quick fact, translation, or message summary? Summon your assistant inside any chat thread with zero app switching.</p>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(245, 158, 11, 0.12); color: #F59E0B; border-color: rgba(245, 158, 11, 0.3);">
+            <i data-lucide="wand-2"></i>
+          </div>
+          <h3>Tone & Mood Rewriter</h3>
+          <p>Transform your rough text into Romantic, Witty, Polite, or Savage tone in a single tap before pressing send.</p>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(16, 185, 129, 0.12); color: #10B981; border-color: rgba(16, 185, 129, 0.3);">
+            <i data-lucide="mic"></i>
+          </div>
+          <h3>Voice-to-Text Transcriber</h3>
+          <p>In a noisy room or meeting? Neural speech recognition instantly converts voice notes to clean readable text.</p>
+        </div>
+
+        <div class="bento-card span-2">
+          <div class="bento-icon" style="background: rgba(244, 63, 94, 0.12); color: #F43F5E; border-color: rgba(244, 63, 94, 0.3);">
+            <i data-lucide="heart-handshake"></i>
+          </div>
+          <h3>Duo Space AI Vibe & Date Spark</h3>
+          <p>Intelligent icebreakers, shared couple trivia, and date-night idea generators tailored specifically for paired Duo Space users to keep connection lively.</p>
+        </div>
+
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6; border-color: rgba(139, 92, 246, 0.3);">
+            <i data-lucide="zap"></i>
+          </div>
+          <h3>Smart 1-Tap Reply</h3>
+          <p>Context-aware predictions analyze chat history to generate hyper-relevant one-tap responses so you can reply on the fly.</p>
+        </div>
+      </div>
+
+      <!-- Interactive Live AI Playground Demo -->
+      <div class="chat-sandbox" style="border-color: rgba(6, 182, 212, 0.35); box-shadow: 0 20px 60px rgba(6, 182, 212, 0.15);">
+        <div class="sandbox-header" style="background: rgba(6, 182, 212, 0.08);">
+          <div style="display:flex; align-items:center; gap: 10px;">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px; color: #06B6D4;"></i>
+            <strong>ChatVarX AI Tone & Reply Simulator</strong>
+          </div>
+          <span style="font-size: 0.78rem; background: rgba(6, 182, 212, 0.2); color: #67E8F9; padding: 2px 10px; border-radius: 12px; font-weight: 700;">LIVE DEMO</span>
+        </div>
+
+        <div style="padding: 24px;">
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 14px;">Select an AI tone preset or type your text below:</p>
+          
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;" id="ai-preset-pills">
+            <button class="btn-ai-preset active" data-tone="romantic">💖 Romantic Duo</button>
+            <button class="btn-ai-preset" data-tone="witty">⚡ Witty & Fun</button>
+            <button class="btn-ai-preset" data-tone="polite">👔 Professional</button>
+            <button class="btn-ai-preset" data-tone="savage">🔥 Savage Roast</button>
+          </div>
+
+          <div style="background: #141122; border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">YOUR INPUT:</div>
+            <input type="text" id="ai-input-sample" value="Where are you? Want to meet tonight?" style="width: 100%; background: transparent; border: none; color: #fff; font-size: 0.95rem; outline: none; font-family: inherit;">
+          </div>
+
+          <button id="btn-generate-ai" class="btn-primary" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #06B6D4, #8B5CF6);">
+            <i data-lucide="sparkles"></i> Generate AI Response
+          </button>
+
+          <!-- Output Box -->
+          <div id="ai-output-box" style="margin-top: 20px; padding: 18px; background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 14px; display: none;">
+            <div style="display:flex; align-items:center; gap: 8px; font-size: 0.8rem; color: #67E8F9; font-weight: 700; margin-bottom: 8px;">
+              <i data-lucide="bot" style="width: 16px; height: 16px;"></i>
+              <span id="ai-output-label">CHATVARX AI SUGGESTION:</span>
+            </div>
+            <p id="ai-output-text" style="color: #fff; font-size: 1.05rem; line-height: 1.5; font-weight: 500;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Grid Features Section -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Core Technology</span>
+        <h2 class="section-title">Built for Modern Communication</h2>
+        <p class="section-desc">Engineered from the ground up for high-speed delivery, seamless media, and complete personal privacy.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Card 1: Official Verification Badge (Screenshot 1) -->
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(6, 182, 212, 0.12); color: #06B6D4; border-color: rgba(6, 182, 212, 0.3);">
+            <i data-lucide="badge-check"></i>
+          </div>
+          <div style="display:flex; align-items:center; gap: 6px; margin-bottom: 6px;">
+            <h3>Official Blue Tick Badge</h3>
+            <span style="color:#06B6D4; font-size:1.1rem;">✓</span>
+          </div>
+          <p>Request an authentic verified checkmark badge with Govt ID verification right from your Account & Security settings.</p>
+        </div>
+
+        <!-- Card 2: Explore & Connect (Screenshot 3) -->
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6; border-color: rgba(139, 92, 246, 0.3);">
+            <i data-lucide="compass"></i>
+          </div>
+          <h3>Explore & Connect</h3>
+          <p>Search by username or name to discover friends, send contact requests, and jump into real-time encrypted messaging.</p>
+        </div>
+
+        <!-- Card 3: 1-Tap Google Authentication (Screenshot 5) -->
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(16, 185, 129, 0.12); color: #10B981; border-color: rgba(16, 185, 129, 0.3);">
+            <i data-lucide="log-in"></i>
+          </div>
+          <h3>Continue with Google</h3>
+          <p>Frictionless onboarding with Google Authentication. No complicated forms or manual verification delays.</p>
+        </div>
+
+        <!-- Card 4: Duo Space Safe Mode (Screenshot 1) -->
+        <div class="bento-card">
+          <div class="bento-icon" style="background: rgba(244, 63, 94, 0.12); color: #F43F5E; border-color: rgba(244, 63, 94, 0.3);">
+            <i data-lucide="eye-off"></i>
+          </div>
+          <h3>Duo Space Safe Mode</h3>
+          <p>Conceal your private Duo Space tab and couple cards secretly with a stealth toggle for complete personal confidentiality.</p>
+        </div>
+
+        <!-- Card 5: Zero-Knowledge Encryption (Screenshot 5) -->
+        <div class="bento-card span-2">
+          <div class="bento-icon"><i data-lucide="shield-check"></i></div>
+          <h3>Ultra-Fast Encrypted Core</h3>
+          <p>Built with end-to-end device encryption and instant WebSocket synchronization. Your messages, calls, and shared memories belong solely to you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Chat Sandbox Demo -->
+  <section class="section" id="demo">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Test Drive</span>
+        <h2 class="section-title">Experience the Chat Speed</h2>
+        <p class="section-desc">Type a test message below to experience the responsive message bubble flow of ChatVarX right inside your browser.</p>
+      </div>
+
+      <div class="chat-sandbox">
+        <div class="sandbox-header">
+          <div style="display:flex; align-items:center; gap: 10px;">
+            <div style="width: 10px; height: 10px; border-radius: 50%; background: #10B981;"></div>
+            <strong style="font-size: 0.95rem;">ChatVarX Interactive Bot</strong>
+          </div>
+          <span style="font-size: 0.8rem; color: #94A3B8;">Web Playground</span>
+        </div>
+
+        <div class="sandbox-chat-area" id="sandbox-chat">
+          <div class="chat-bubble chat-incoming">
+            👋 Welcome to ChatVarX! Type anything to test how messages look and feel.
+          </div>
+        </div>
+
+        <form class="sandbox-form" id="sandbox-form">
+          <input type="text" class="sandbox-input" id="sandbox-input" placeholder="Say hi or ask about Duo Space..." autocomplete="off">
+          <button type="submit" class="btn-primary" style="padding: 10px 18px;">
+            <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Hub Section -->
+  <section class="section download-section" id="download">
+    <div class="container">
+      <div class="download-box">
+        <span class="section-tag">Ready to upgrade?</span>
+        <h2 class="section-title" style="margin-bottom: 12px;">Get ChatVarX for Android</h2>
+        <p class="section-desc" style="margin-bottom: 30px;">
+          Install the official APK directly onto your phone and start chatting with friends and partners today.
+        </p>
+
+        <div class="download-qr-box">
+          <div class="qr-code-wrapper">
+            <!-- Dynamic QR Code pointing to /download -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://localhost:3000/download" alt="Download QR Code" id="download-qr">
+            <p style="color: #000; font-size: 0.75rem; font-weight: 700; margin-top: 6px;">Scan with Phone</p>
+          </div>
+
+          <div class="download-action-group">
+            <a href="/download" class="btn-big-download" id="main-download-btn">
+              <i data-lucide="download"></i>
+              <div style="text-align: left;">
+                <div style="font-size: 0.8rem; opacity: 0.9; font-weight: 500;">Direct APK Download</div>
+                <div id="download-btn-version">ChatVarX v1.0.4</div>
+              </div>
+            </a>
+            <div style="color: var(--text-secondary); font-size: 0.88rem;">
+              <span id="download-stats-text">📥 42+ Successful Downloads</span> • Free & Open Access
+            </div>
+          </div>
+        </div>
+
+        <!-- 3-Step Easy Install Guide -->
+        <div style="margin-top: 48px; border-top: 1px solid var(--border-subtle); padding-top: 36px;">
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 24px; color: #E2E8F0;">
+            🚀 3 Simple Steps to Install on Any Android Phone
+          </h3>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;" class="install-steps-grid">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; text-align: left;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(139, 92, 246, 0.2); color: #A78BFA; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; margin-bottom: 12px;">1</div>
+              <strong style="color: #fff; display: block; margin-bottom: 6px;">Tap Download APK</strong>
+              <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">Click the download button above or scan the QR code with your camera.</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; text-align: left;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(6, 182, 212, 0.2); color: #06B6D4; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; margin-bottom: 12px;">2</div>
+              <strong style="color: #fff; display: block; margin-bottom: 6px;">Tap File to Install</strong>
+              <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">Open the downloaded file from your notification bar. Tap "Allow from this source" if prompted.</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; text-align: left;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); color: #10B981; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; margin-bottom: 12px;">3</div>
+              <strong style="color: #fff; display: block; margin-bottom: 6px;">Open & Start Chatting</strong>
+              <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5;">Launch ChatVarX, pair up in Duo Space, and enjoy ultra-fast private messaging!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Help & Answers</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What makes ChatVarX different from normal chat apps?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            ChatVarX focuses on ultra-fast lightweight architecture, coupled with our proprietary <strong>Duo Space</strong>—a dedicated intimate connection space with live heartbeat haptic feedback and zero clutter.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do I install the APK on Android?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            Click the "Download APK" button, open the downloaded `.apk` file on your Android device, and grant "Install from unknown sources" permission when prompted.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How does the App receive future updates?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            ChatVarX features built-in update detection. When an administrator uploads a new release to the Admin Portal, your installed app will automatically notify you with release notes and a one-click upgrade button.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is my data private and secure?</span>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do I get help, report bugs, or contact support?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            You can reach out to our official team directly at <strong style="color: #06B6D4;">ChatVarX@gmail.com</strong>. We assist with account inquiries, verification badge approvals, and feature suggestions.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div style="display:flex; align-items:center; gap: 10px;">
+        <img src="assets/logo.svg" alt="ChatVarX Logo" style="width: 28px; height: 28px;">
+        <span style="font-weight: 700;">ChatVarX Platform</span>
+        <span style="color: var(--text-muted); font-size: 0.85rem;">© 2026. All rights reserved.</span>
+      </div>
+
+      <ul class="footer-links">
+        <li><a href="mailto:ChatVarX@gmail.com"><i data-lucide="mail" style="width:14px;height:14px;vertical-align:middle;"></i> ChatVarX@gmail.com</a></li>
+        <li><a href="/download">Download APK</a></li>
+        <li><a href="#features">Features</a></li>
+      </ul>
+    </div>
+  </footer>
+  <!-- Sticky Bottom Floating Quick Download Bar (Shows on Scroll) -->
+  <aside class="floating-download-bar" id="floating-download-bar">
+    <div class="floating-bar-inner">
+      <div style="display:flex; align-items:center; gap: 10px;">
+        <img src="assets/logo.svg" alt="ChatVarX" style="width: 32px; height: 32px;">
+        <div>
+          <div style="font-weight: 700; font-size: 0.9rem; line-height: 1.2;">ChatVarX for Android</div>
+          <div style="font-size: 0.75rem; color: #10B981; display:flex; align-items:center; gap:4px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#10B981;"></span>
+            <span id="floating-version-text">v1.0.5 Ready</span>
+          </div>
+        </div>
+      </div>
+      <a href="/download" class="btn-primary" style="padding: 10px 20px; font-size: 0.88rem; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);" id="floating-download-btn">
+        <i data-lucide="download"></i> <span>Download APK</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Download Started Toast Alert -->
+  <div class="download-toast" id="download-toast">
+    <div style="display:flex; align-items:flex-start; gap: 12px;">
+      <div style="background: rgba(16, 185, 129, 0.2); color: #10B981; width: 34px; height: 34px; border-radius: 50%; display:flex; align-items:center; justify-content:center; flex-shrink: 0;">
+        <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+      </div>
+      <div style="flex:1;">
+        <strong style="color: #fff; font-size: 0.92rem; display: block; margin-bottom: 2px;">Downloading ChatVarX APK...</strong>
+        <p style="color: var(--text-secondary); font-size: 0.82rem; line-height: 1.4;">
+          Check your notification bar. Once finished, tap the APK file to install!
+        </p>
+      </div>
+      <button onclick="document.getElementById('download-toast').classList.remove('show')" style="background:none; border:none; color: var(--text-muted); cursor: pointer;">
+        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Download Locked Alert Toast -->
+  <div class="locked-toast" id="locked-toast">
+    <div style="display:flex; align-items:flex-start; gap: 12px; width: 100%;">
+      <div style="background: rgba(245, 158, 11, 0.2); color: #F59E0B; width: 36px; height: 36px; border-radius: 50%; display:flex; align-items:center; justify-content:center; flex-shrink: 0;">
+        <i data-lucide="lock" style="width: 18px; height: 18px;"></i>
+      </div>
+      <div style="flex:1;">
+        <strong style="color: #fff; font-size: 0.92rem; display: block; margin-bottom: 2px;">🔒 Download Locked Until Official Launch</strong>
+        <p style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.4; margin: 0;" id="locked-toast-message">
+          ChatVarX APK unlocks automatically when the countdown hits zero. Check the live timer above!
+        </p>
+      </div>
+      <button onclick="document.getElementById('locked-toast').classList.remove('show')" style="background:none; border:none; color: var(--text-muted); cursor: pointer;" aria-label="Close notification">
+        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <!-- Background Glassmorphism Bubble Gradient -->
+    <radialGradient id="bubbleBg" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#2D2845" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#141124" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#090714" stop-opacity="1"/>
+    </radialGradient>
+
+    <!-- Neon Infinity Gradient: Cyan to Electric Purple/Violet -->
+    <linearGradient id="infinityGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF"/>
+      <stop offset="50%" stop-color="#7000FF"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+
+    <!-- Glowing Filters -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Glass Rim Glow -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#8B5CF6" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#F43F5E" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Speech Bubble Body with Glass Rim -->
+  <path d="M 60 12 C 32 12 12 30 12 52 C 12 65 19 76 30 83 L 26 104 C 25.5 106 28 107.5 29.5 106.5 L 49 93 C 52.5 94 56.2 94.5 60 94.5 C 88 94.5 108 76 108 52 C 108 30 88 12 60 12 Z" 
+        fill="url(#bubbleBg)" 
+        stroke="url(#rimGrad)" 
+        stroke-width="2.5" />
+
+  <!-- Top Glass Highlight Arc -->
+  <path d="M 28 40 C 35 24 55 18 78 20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- Glowing Infinity Symbol Inside (ChatVarX Signature) -->
+  <path d="M 42 52 C 42 43 51 43 60 52 C 69 61 78 61 78 52 C 78 43 69 43 60 52 C 51 61 42 61 42 52 Z" 
+        stroke="url(#infinityGrad)" 
+        stroke-width="6.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        filter="url(#neonGlow)"/>
+
+  <!-- Infinity Center Highlights -->
+  <circle cx="42" cy="52" r="2.5" fill="#00F0FF"/>
+  <circle cx="78" cy="52" r="2.5" fill="#EC4899"/>
+</svg>

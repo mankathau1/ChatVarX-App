@@ -1,0 +1,15 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+
+# Environment
+.env
+
+# Large local uploaded binaries (these go to GitHub Releases, not git tree)
+uploads/apks/*.apk
+!uploads/apks/.gitkeep
+
+# Logs and system
+*.log
+.DS_Store
+Thumbs.db

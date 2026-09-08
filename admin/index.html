@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatVarX Admin — Live Analytics & APK Release Manager</title>
+  
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Login Modal Overlay -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-card">
+      <img src="/assets/logo.svg" alt="ChatVarX Admin" class="login-logo">
+      <h2 class="login-title">ChatVarX Admin Hub</h2>
+      <p class="login-sub">Enter your security PIN to access the control panel</p>
+
+      <form id="login-form">
+        <div class="login-input-group">
+          <label for="admin-pin">Admin Security PIN</label>
+          <input type="password" id="admin-pin" class="login-input" placeholder="Default: admin123" required autocomplete="current-password">
+        </div>
+        <p id="login-error" style="color: #F43F5E; font-size: 0.85rem; margin-bottom: 12px; display: none;">Invalid PIN. Please try again.</p>
+        <button type="submit" class="btn-login" id="login-submit-btn">Unlock Dashboard</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <div style="display:flex; align-items:center; gap: 10px; flex: 1;">
+        <img src="/assets/logo.svg" alt="ChatVarX">
+        <h2>ChatVarX <span style="font-size:0.8rem; color:var(--primary);">ADMIN</span></h2>
+      </div>
+      <button class="admin-mobile-toggle" id="admin-mobile-toggle" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+
+    <div class="sidebar-body" id="sidebar-body">
+      <ul class="sidebar-menu">
+        <li><a class="sidebar-item active" href="#dashboard"><i data-lucide="layout-dashboard"></i> Overview</a></li>
+        <li><a class="sidebar-item" href="#launch-manager"><i data-lucide="timer"></i> Launch Countdown</a></li>
+        <li><a class="sidebar-item" href="#apk-manager"><i data-lucide="package-plus"></i> APK Release Hub</a></li>
+        <li><a class="sidebar-item" href="#downloads-log"><i data-lucide="download-cloud"></i> Download Logs</a></li>
+        <li><a class="sidebar-item" href="#visitors-log"><i data-lucide="users"></i> Visitor Traffic</a></li>
+        <li><a class="sidebar-item" href="#api-guide"><i data-lucide="code-2"></i> In-App Update API</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="sidebar-item" style="margin-bottom: 8px;">
+          <i data-lucide="external-link"></i> Public Website
+        </a>
+        <button class="btn-logout" id="logout-btn">
+          <i data-lucide="log-out"></i> Sign Out
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Dashboard Content -->
+  <main class="admin-main">
+    <header class="main-header">
+      <div>
+        <h1>Control & Analytics Dashboard</h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time visitor telemetry and live Android binary distribution</p>
+      </div>
+
+      <div style="display:flex; align-items:center; gap: 16px;">
+        <span class="badge-live">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #10B981;"></span>
+          Telemetry Live
+        </span>
+        <button class="sidebar-item" id="refresh-stats-btn" style="background: rgba(255,255,255,0.06); padding: 8px 14px;">
+          <i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i> Refresh
+        </button>
+      </div>
+    </header>
+
+    <!-- Top 4 Stats Metric Cards -->
+    <section class="stats-grid" id="dashboard">
+      <!-- Total Page Views -->
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(6, 182, 212, 0.12); color: #06B6D4;">
+          <i data-lucide="eye"></i>
+        </div>
+        <div class="stat-label">Total Website Visitors</div>
+        <div class="stat-value" id="stat-total-visits">0</div>
+        <div class="stat-sub">
+          <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i>
+          <span id="stat-today-visits">0</span> visits today
+        </div>
+      </div>
+
+      <!-- Total Downloads -->
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.12); color: #10B981;">
+          <i data-lucide="download"></i>
+        </div>
+        <div class="stat-label">Total App Downloads</div>
+        <div class="stat-value" id="stat-total-downloads">0</div>
+        <div class="stat-sub">
+          <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+          <span id="stat-today-downloads">0</span> downloaded today
+        </div>
+      </div>
+
+      <!-- Mobile Traffic Ratio -->
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6;">
+          <i data-lucide="smartphone"></i>
+        </div>
+        <div class="stat-label">Mobile vs Desktop</div>
+        <div class="stat-value" id="stat-device-ratio">0%</div>
+        <div class="stat-sub" style="color: var(--text-muted);">
+          <span id="stat-device-detail">0 Mobile • 0 Desktop</span>
+        </div>
+      </div>
+
+      <!-- Active APK Version -->
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(244, 63, 94, 0.12); color: #F43F5E;">
+          <i data-lucide="package"></i>
+        </div>
+        <div class="stat-label">Active Live Version</div>
+        <div class="stat-value" id="stat-active-version">v1.0.4</div>
+        <div class="stat-sub" style="color: #F43F5E;">
+          <i data-lucide="hard-drive" style="width: 14px; height: 14px;"></i>
+          <span id="stat-active-size">28.4 MB</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Launch Countdown Manager Section -->
+    <section class="upload-card" id="launch-manager" style="border-color: rgba(6, 182, 212, 0.4); background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(139, 92, 246, 0.03), #120E22);">
+      <div class="card-title">
+        <i data-lucide="timer" style="color: #06B6D4;"></i>
+        Launch Countdown & Release Date Manager
+      </div>
+      <p class="card-desc">
+        Configure the official launch countdown displayed on the public landing page. Any update takes effect immediately for all visitors.
+      </p>
+
+      <!-- Live Public Countdown Preview inside Admin -->
+      <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 14px; padding: 16px; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: #06B6D4; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #06B6D4; box-shadow: 0 0 8px #06B6D4;"></span>
+            LIVE PUBLIC DISPLAY PREVIEW
+          </span>
+          <span id="admin-preview-status" style="font-size: 0.78rem; color: #94A3B8;">Ticking down...</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; font-family: var(--font-heading);" id="admin-preview-digits">
+          <div style="text-align: center; background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); min-width: 60px;">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #fff;" id="admin-cd-days">04</div>
+            <div style="font-size: 0.62rem; color: #64748B; font-weight: 700;">DAYS</div>
+          </div>
+          <span style="font-size: 1.3rem; font-weight: 800; color: #06B6D4;">:</span>
+          <div style="text-align: center; background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); min-width: 60px;">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #fff;" id="admin-cd-hours">00</div>
+            <div style="font-size: 0.62rem; color: #64748B; font-weight: 700;">HOURS</div>
+          </div>
+          <span style="font-size: 1.3rem; font-weight: 800; color: #06B6D4;">:</span>
+          <div style="text-align: center; background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); min-width: 60px;">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #fff;" id="admin-cd-mins">00</div>
+            <div style="font-size: 0.62rem; color: #64748B; font-weight: 700;">MINS</div>
+          </div>
+          <span style="font-size: 1.3rem; font-weight: 800; color: #06B6D4;">:</span>
+          <div style="text-align: center; background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); min-width: 60px;">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #fff;" id="admin-cd-secs">00</div>
+            <div style="font-size: 0.62rem; color: #64748B; font-weight: 700;">SECS</div>
+          </div>
+        </div>
+      </div>
+
+      <form id="launch-config-form">
+        <div class="upload-form-grid">
+          <div class="form-group full-width">
+            <label for="admin-launch-date">Launch Target Date & Time*</label>
+            <input type="datetime-local" id="admin-launch-date" name="targetDate" class="form-input" required>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+              <span style="font-size: 0.78rem; color: var(--text-muted); align-self: center;">Quick Presets:</span>
+              <button type="button" class="btn-preset" data-days="4">+4 Days (Current)</button>
+              <button type="button" class="btn-preset" data-days="3">+3 Days</button>
+              <button type="button" class="btn-preset" data-days="2">+2 Days</button>
+              <button type="button" class="btn-preset" data-days="1">+1 Day</button>
+              <button type="button" class="btn-preset" data-hours="12">+12 Hours</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="admin-launch-title">Launch Title</label>
+            <input type="text" id="admin-launch-title" name="title" class="form-input" placeholder="Official Global Android Launch">
+          </div>
+
+          <div class="form-group">
+            <label for="admin-launch-badge">Badge Label</label>
+            <input type="text" id="admin-launch-badge" name="badgeText" class="form-input" placeholder="🚀 LAUNCHING IN">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="admin-launch-message">Live Celebration Message (shown when launched)</label>
+            <input type="text" id="admin-launch-message" name="liveMessage" class="form-input" placeholder="🎉 ChatVarX is Officially LIVE! Download APK Now.">
+          </div>
+
+          <div class="form-group full-width" style="display: flex; flex-direction: row; align-items: center; gap: 10px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); padding: 12px 16px; border-radius: 12px;">
+            <input type="checkbox" id="admin-launch-is-live" name="isLive" value="true" style="width: 18px; height: 18px; accent-color: #10B981;">
+            <label for="admin-launch-is-live" style="font-size: 0.9rem; cursor: pointer; color: #fff;">
+              <strong>Mark as Officially LIVE</strong> (Hides countdown timer and turns on celebration mode on website immediately)
+            </label>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+          <div id="launch-update-status" style="font-size: 0.9rem; font-weight: 500;"></div>
+          <button type="submit" class="btn-upload-submit" id="save-launch-btn" style="background: linear-gradient(135deg, #06B6D4, #3B82F6);">
+            <i data-lucide="save"></i> Save Launch Countdown
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- APK Release Hub (Upload & Instant Update) -->
+    <section class="upload-card" id="apk-manager">
+      <div class="card-title">
+        <i data-lucide="upload-cloud" style="color: var(--primary);"></i>
+        Upload & Publish New APK
+      </div>
+      <p class="card-desc">
+        Upload your latest compiled <code>.apk</code> file here. It will immediately become the official download file on the public website, and existing users' mobile apps will detect the new version automatically.
+      </p>
+
+      <form id="apk-upload-form" enctype="multipart/form-data">
+        <div class="upload-form-grid">
+          <div class="form-group">
+            <label for="versionName">Version Tag (e.g. v1.0.5)*</label>
+            <input type="text" id="versionName" name="versionName" class="form-input" placeholder="v1.0.5" required>
+          </div>
+
+          <div class="form-group">
+            <label for="versionCode">Version Code (e.g. 5)*</label>
+            <input type="number" id="versionCode" name="versionCode" class="form-input" placeholder="5" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Select Android APK File (.apk)*</label>
+            <div class="file-dropzone" id="dropzone">
+              <i data-lucide="file-up" style="width: 36px; height: 36px; color: var(--primary); margin-bottom: 8px;"></i>
+              <p style="font-weight: 600; margin-bottom: 4px;" id="dropzone-label">Click or Drag & Drop .apk file here</p>
+              <p style="color: var(--text-muted); font-size: 0.8rem;">Supports up to 250 MB</p>
+              <input type="file" id="apkFile" name="apkFile" accept=".apk" style="display: none;" required>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="releaseNotes">What's New / Changelog</label>
+            <textarea id="releaseNotes" name="releaseNotes" class="form-textarea" rows="3" placeholder="• Duo Space heartbeat speed boost&#10;• Bug fixes and battery optimization"></textarea>
+          </div>
+
+          <div class="form-group full-width" style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <input type="checkbox" id="isForceUpdate" name="isForceUpdate" value="true" style="width: 18px; height: 18px; accent-color: var(--rose);">
+            <label for="isForceUpdate" style="font-size: 0.9rem; cursor: pointer;">
+              Mandatory Force Update (Mobile app will require users to update before proceeding)
+            </label>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content: space-between; align-items: center;">
+          <div id="upload-status" style="font-size: 0.9rem; font-weight: 500;"></div>
+          <button type="submit" class="btn-upload-submit" id="submit-upload-btn">
+            <i data-lucide="send"></i> Publish APK Live
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Published Releases History Table -->
+    <section class="data-card">
+      <div class="card-title">
+        <i data-lucide="archive" style="color: #F59E0B;"></i>
+        Published Releases & Download Counts
+      </div>
+      <p class="card-desc">History of all published builds and their individual download statistics.</p>
+
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Version</th>
+              <th>File Name</th>
+              <th>Size</th>
+              <th>Downloads</th>
+              <th>Release Date</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="releases-table-body">
+            <tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Loading releases...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Download Logs Table -->
+    <section class="data-card" id="downloads-log">
+      <div class="card-title">
+        <i data-lucide="download" style="color: #10B981;"></i>
+        Recent APK Download Activity (Live Feed)
+      </div>
+      <p class="card-desc">Tracks each time a user downloads the APK file.</p>
+
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Version</th>
+              <th>Device OS</th>
+              <th>Browser</th>
+              <th>IP Address</th>
+            </tr>
+          </thead>
+          <tbody id="downloads-table-body">
+            <tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No downloads recorded yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Visitor Traffic Table -->
+    <section class="data-card" id="visitors-log">
+      <div class="card-title">
+        <i data-lucide="globe" style="color: #06B6D4;"></i>
+        Recent Website Visitors (Telemetry)
+      </div>
+      <p class="card-desc">Real-time log of users viewing your website.</p>
+
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Device</th>
+              <th>OS / Platform</th>
+              <th>Browser</th>
+              <th>Referrer</th>
+              <th>IP</th>
+            </tr>
+          </thead>
+          <tbody id="visitors-table-body">
+            <tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Loading visitor logs...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Flutter Mobile App Auto-Update API Guide -->
+    <section class="data-card" id="api-guide">
+      <div class="card-title">
+        <i data-lucide="smartphone" style="color: #8B5CF6;"></i>
+        Connecting ChatVarX Mobile App (Auto-Update Integration)
+      </div>
+      <p class="card-desc">
+        Your Flutter app can call your website's API endpoint on launch to automatically prompt users when you publish a new APK in this admin panel.
+      </p>
+
+      <div style="margin-top: 14px;">
+        <strong style="color: #fff; font-size: 0.9rem;">1. Version Check Endpoint:</strong>
+        <div class="code-preview">GET /api/apk/latest</div>
+      </div>
+
+      <div style="margin-top: 18px;">
+        <strong style="color: #fff; font-size: 0.9rem;">2. Flutter Sample Code Snippet:</strong>
+        <div class="code-preview">// In your ChatVarX Flutter app (e.g., in main.dart or splash screen):
+Future&lt;void&gt; checkForAppUpdate() async {
+  try {
+    final response = await http.get(Uri.parse('http://your-server-ip:3000/api/apk/latest'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      int serverVersionCode = data['versionCode'];
+      int currentAppVersionCode = 4; // Current local app build
+
+      if (serverVersionCode > currentAppVersionCode) {
+        // Trigger Update Dialog
+        showUpdateDialog(
+          version: data['versionName'],
+          notes: data['releaseNotes'],
+          downloadUrl: data['downloadUrl'],
+          isForce: data['isForceUpdate']
+        );
+      }
+    }
+  } catch (e) {
+    print("Update check error: $e");
+  }
+}</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
