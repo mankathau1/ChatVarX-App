@@ -90,7 +90,7 @@ app.get('/api/apk/latest', (req, res) => {
 
   const host = req.get('host');
   const protocol = req.protocol;
-  const downloadUrl = `${protocol}://${host}/download`;
+  const downloadUrl = (latest && latest.downloadUrl) ? latest.downloadUrl : `${protocol}://${host}/download`;
 
   res.json({
     versionName: latest.versionName,
@@ -120,7 +120,10 @@ app.get('/download', (req, res) => {
   const version = latest ? latest.versionName : 'v1.0.4';
   db.recordDownload({ version, ip, userAgent });
 
-  if (latest && latest.filePath && fs.existsSync(latest.filePath)) {
+  if (latest && latest.downloadUrl) {
+    // Redirect to high-speed Global CDN (GitHub Releases / Cloudflare)
+    return res.redirect(latest.downloadUrl);
+  } else if (latest && latest.filePath && fs.existsSync(latest.filePath)) {
     // Stream real uploaded APK
     res.download(latest.filePath, latest.fileName || `chatvarx-${latest.versionName}.apk`, (err) => {
       if (err) console.error('Download transfer error:', err);
@@ -231,27 +234,31 @@ app.get('/api/admin/releases', adminAuth, (req, res) => {
   res.json({ success: true, releases });
 });
 
-// Upload New APK Release
+// Upload New APK Release (Local File or Cloud URL)
 app.post('/api/admin/apk/upload', adminAuth, upload.single('apkFile'), (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'Please select an APK file to upload' });
-    }
+    const { versionName, versionCode, releaseNotes, isForceUpdate, downloadUrl } = req.body;
 
-    const { versionName, versionCode, releaseNotes, isForceUpdate } = req.body;
+    if (!req.file && (!downloadUrl || !downloadUrl.trim())) {
+      return res.status(400).json({ success: false, message: 'Please select an APK file OR enter a direct cloud download URL' });
+    }
 
     if (!versionName) {
       return res.status(400).json({ success: false, message: 'Version Name (e.g. v1.0.5) is required' });
     }
 
-    const sizeInMB = (req.file.size / (1024 * 1024)).toFixed(1) + ' MB';
+    const cleanUrl = downloadUrl ? downloadUrl.trim() : null;
+    const fileName = req.file ? req.file.originalname : (cleanUrl ? cleanUrl.split('/').pop().split('?')[0] || 'chatvarx.apk' : 'chatvarx.apk');
+    const filePath = req.file ? req.file.path : null;
+    const sizeInMB = req.file ? (req.file.size / (1024 * 1024)).toFixed(1) + ' MB' : 'Cloud CDN';
 
     const newRelease = db.addRelease({
       versionName: versionName.trim(),
       versionCode: versionCode || 1,
-      fileName: req.file.originalname,
-      filePath: req.file.path,
+      fileName,
+      filePath,
       fileSize: sizeInMB,
+      downloadUrl: cleanUrl,
       releaseNotes: releaseNotes || '',
       isForceUpdate: isForceUpdate === 'true' || isForceUpdate === true
     });

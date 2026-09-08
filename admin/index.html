@@ -249,13 +249,24 @@
           </div>
 
           <div class="form-group full-width">
-            <label>Select Android APK File (.apk)*</label>
+            <label>Select Android APK File (.apk)</label>
             <div class="file-dropzone" id="dropzone">
               <i data-lucide="file-up" style="width: 36px; height: 36px; color: var(--primary); margin-bottom: 8px;"></i>
               <p style="font-weight: 600; margin-bottom: 4px;" id="dropzone-label">Click or Drag & Drop .apk file here</p>
               <p style="color: var(--text-muted); font-size: 0.8rem;">Supports up to 250 MB</p>
-              <input type="file" id="apkFile" name="apkFile" accept=".apk" style="display: none;" required>
+              <input type="file" id="apkFile" name="apkFile" accept=".apk" style="display: none;">
             </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="downloadUrl" style="display: flex; align-items: center; gap: 6px; color: #38BDF8;">
+              <i data-lucide="zap" style="width: 15px; height: 15px;"></i>
+              Direct High-Speed Cloud CDN URL (e.g. GitHub Releases / Cloudflare R2)
+            </label>
+            <input type="url" id="downloadUrl" name="downloadUrl" class="form-input" placeholder="https://github.com/mankathau1/ChatVarX-App/releases/download/v1.0.0/ChatVarX-v1.0.0.apk">
+            <p style="color: var(--text-muted); font-size: 0.78rem; margin-top: 4px;">
+              Paste your GitHub Releases link here. Users will download at 50 - 100 MB/s from global CDN without taking server bandwidth.
+            </p>
           </div>
 
           <div class="form-group full-width">

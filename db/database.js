@@ -175,7 +175,7 @@ const db = {
     return data.releases || [];
   },
 
-  addRelease({ versionName, versionCode, fileName, filePath, fileSize, releaseNotes, isForceUpdate }) {
+  addRelease({ versionName, versionCode, fileName, filePath, fileSize, releaseNotes, isForceUpdate, downloadUrl }) {
     const data = readDB();
     const newRelease = {
       id: crypto.randomUUID(),
@@ -184,6 +184,7 @@ const db = {
       fileName,
       filePath,
       fileSize,
+      downloadUrl: downloadUrl || null,
       releaseNotes: releaseNotes || 'Bug fixes and performance enhancements.',
       isForceUpdate: !!isForceUpdate,
       createdAt: new Date().toISOString(),

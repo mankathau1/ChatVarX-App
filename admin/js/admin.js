@@ -145,8 +145,11 @@ function setupEventListeners() {
 
   uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!fileInput.files || fileInput.files.length === 0) {
-      alert('Please select an APK file first!');
+    const directUrl = document.getElementById('downloadUrl') ? document.getElementById('downloadUrl').value.trim() : '';
+    const hasFile = fileInput.files && fileInput.files.length > 0;
+
+    if (!hasFile && !directUrl) {
+      alert('Please select an APK file OR paste a direct cloud download URL!');
       return;
     }
 
